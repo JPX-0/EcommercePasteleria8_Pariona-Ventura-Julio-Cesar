@@ -2,7 +2,7 @@ const Item = (props) => {
   return (
     <>
       <picture className="card__picture">
-        <img src={props.content.pictureURL} alt={props.content.title} className="card__img"/>
+        <img src={props.src} alt={props.alt} className="card__img"/>
       </picture>
     </>
   )};

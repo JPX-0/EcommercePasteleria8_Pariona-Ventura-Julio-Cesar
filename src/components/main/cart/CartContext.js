@@ -19,11 +19,13 @@ const CartContextProvider = ({children}) => {
           imgItem: item.pictureURL,
           nameItem: item.title,
           priceItem: item.price,
-          qtyItem: cantProd
+          qtyItem: cantProd,
+          totalPricePerItem: item.price * cantProd
         }
       ])
     } else {
       itemFound.qtyItem += cantProd;
+      itemFound.totalPricePerItem += item.price * cantProd;
       setCartList([...cartList])
     }
   }
@@ -38,8 +40,27 @@ const CartContextProvider = ({children}) => {
     let count = cartList.map(elem => elem.qtyItem);
     return count.reduce(((previousVal, currentVal) => previousVal + currentVal), 0)
   }
+  const roundOut = (num) => {
+    let sign = num >= 0 ? 1 : -1;
+    return (Math.round((num * Math.pow(10, 2)) + (sign * 0.0001)) / Math.pow(10, 2)).toFixed(2);
+  }
+  const calcTotal = () => {
+    let totalPerItem = cartList.map(item => item.totalPricePerItem);
+    let finalPrice;
+    if(totalPerItem.length > 0) {
+      finalPrice = totalPerItem.reduce((previousVal, currentVal) => previousVal + currentVal);
+    }
+    return finalPrice;
+  }
+  const calcIva = () => {
+    return Number(roundOut(calcTotal() / 19.2));
+  }
+  const calcTotalFinal = () => {
+    return calcTotal() + calcIva();
+  }
+  console.log(cartList);
   return(
-    <CartContext.Provider value={{cartList, addItem, removeItem, clear, counterProducts}}>
+    <CartContext.Provider value={{cartList, addItem, removeItem, clear, counterProducts, calcTotal, calcIva, calcTotalFinal}}>
       {children}
     </CartContext.Provider>
   );

@@ -14,26 +14,28 @@ const ItemDetail = (props) => {
   return (
     <>
       {
-        props.content.length !== 0 ?
-        <section className="detail">
-          <picture className="card__picture">
-            <img src={props.content.pictureURL} alt={props.content.title} className="card__img"/>
-          </picture>
-          <article>
-            <h2 className="card__title">{props.content.title}</h2>
-            <p className="card__price">${props.content.price} x U</p>
-            <p className="card__description">{props.content.description}</p>
-          </article>
-          {
-            itemCount === 0 ?
-            <ItemCount stock={props.content.stock} initial={itemCount} price={props.content.price} id={props.content.id} onAdd={onAdd}/> :
-            <>
-              <Link to="/cart" className="btn btn__addToCar">Terminar mi compra</Link>
-              <Link to="/" className="btn btn__link btn__link--black">Seguir comprando</Link>
-            </>
-          }
-        </section> :
-        <p className="msg msg__cargando" id="messageDataD"></p> 
+        props.content ?
+          props.content.length !== 0 ?
+          <section className="detail">
+            <picture className="card__picture">
+              <img src={props.content.pictureURL} alt={props.content.title} className="card__img"/>
+            </picture>
+            <article>
+              <h2 className="card__title">{props.content.title}</h2>
+              <p className="card__price">${props.content.price} x U</p>
+              <p className="card__description">{props.content.description}</p>
+            </article>
+            {
+              itemCount > 0 ?
+              <>
+                <Link to="/cart" className="btn btn__addToCar">Terminar mi compra</Link>
+                <Link to="/" className="btn btn__link btn__link--black">Seguir comprando</Link>
+              </> :
+              <ItemCount stock={props.content.stock} initial={itemCount} price={props.content.price} id={props.content.id} onAdd={onAdd}/>
+            }
+          </section> :
+          <p className="msg msg__cargando"></p> :
+        <p className="msg__error"></p>
       }
     </>
   )};

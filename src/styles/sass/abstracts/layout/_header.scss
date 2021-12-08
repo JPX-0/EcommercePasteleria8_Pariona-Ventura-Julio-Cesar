@@ -17,6 +17,9 @@
   &:hover {
     top: 0;
   }
+  &:hover ~ .main .cart__container {
+    top: 8.5rem;
+  }
   &__container {
     align-items     : center;
     color           : #f5f0f2;
